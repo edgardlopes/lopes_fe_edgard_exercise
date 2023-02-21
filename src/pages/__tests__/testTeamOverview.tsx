@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {render, screen, waitFor} from '@testing-library/react';
+import {BrowserRouter} from 'react-router-dom';
 import * as API from '../../api';
 import TeamOverview from '../TeamOverview';
 
 jest.mock('react-router-dom', () => ({
     useLocation: () => ({
         state: {
-            teamName: 'Some Team',
+            name: 'Some Team',
         },
     }),
     useNavigate: () => ({}),
@@ -42,8 +43,8 @@ describe('TeamOverview', () => {
             location: '',
             avatar: '',
         };
-        jest.spyOn(API, 'getTeamOverview').mockImplementationOnce(() => Promise.resolve({} as any));
-        jest.spyOn(API, 'getUserData').mockImplementationOnce(() => Promise.resolve({} as any));
+        jest.spyOn(API, 'getTeamOverview').mockResolvedValueOnce(teamOverview);
+        jest.spyOn(API, 'getUserData').mockResolvedValue(userData);
 
         render(<TeamOverview />);
 
